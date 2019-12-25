@@ -1,7 +1,7 @@
 function getDate (timeDefinition) {
     let day;
     let date = new Date()
-    let month = '' + (date.getMonth())
+    let month = '' + (date.getMonth() + 1)
     let year = date.getFullYear()
     if (timeDefinition === "today") {
         day = '' + date.getDate()
@@ -14,8 +14,8 @@ function getDate (timeDefinition) {
         } else if (timeDefinition.includes('+')) {
             monthsDifference = parseInt(timeDefinition.split('+')[1])
         }
-        date = new Date(date.getFullYear(), date.getMonth() + monthsDifference, 1)
-        month = '' + date.getMonth()
+        date = new Date(date.getFullYear(), date.getMonth() + monthsDifference + 1, 1)
+        month = '' + (date.getMonth() + 1)
         day = '' + date.getDate()
         year = '' + date.getFullYear()
     }
@@ -29,7 +29,7 @@ function getDate (timeDefinition) {
 }
 
 function getMonthFromIndex(index) {
-    return months[index]
+    return months[index-1]
 }
 
 const months = [
