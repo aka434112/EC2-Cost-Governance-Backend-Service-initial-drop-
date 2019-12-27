@@ -1,40 +1,21 @@
 const express = require('express');
-const app = express();
-const cors = require('cors');
-const bodyParser = require("body-parser");
-const accountSvc = require("../services/accountsSvc");
-
-const creds = require("../models/credentials");
-
-app.use(cors());
-app.options('*', cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-app.listen(process.env.PORT || 3000, ()=> {
-    console.log("Server is up");
-});
+const router = express.Router();
+const databaseSvc = require("../services/rest/databaseSvc");
 
 
-app.post('/credentials/AWS/postAccount', function(req, res) {
+router.post('/credentials/AWS/postAccount', async function(req, res) {
     if(req.body.credentials){
-        const credsObj = new creds(req.body.credentials.accessId, req.body.credentials.secretKey, req.body.credentials.aliasName, req.body.credentials.email, req.body.credentials.budgets);
-        accountSvc.saveAccount(credsObj, res);
+        const credentialsObj = req.body.credentials;
+        const transactionData = await databaseSvc.postAccountDetails(credentialsObj.accessId, credentialsObj);
+        res.status(transactionData.status).send(transactionData.statusText);
     } else {
-        res.status(400).send();
+        res.status(400).send("The request is missing the required credentials");
     }
 })
 
-app.get('/credentials/AWS/getAccounts', function(req, res){
-    accountSvc.fetchAccounts().then(awsAccounts => {
-        res.send(awsAccounts)
-    })
+router.get('/credentials/AWS/getAccounts', async function(req, res){
+    const awsAccounts = await databaseSvc.getAccountDetails()
+    res.send(awsAccounts);
 })
 
-require('./awsApiLayer')(app);
-
+module.exports = router;

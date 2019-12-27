@@ -39,7 +39,6 @@ if (cluster.isMaster) {
     });
   
     childDomain.run(function () {
-      require('./routes/accounts')
-      require('./watcher')
+      require('./app')
     });
   }
