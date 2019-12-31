@@ -3,7 +3,7 @@ var watchers = require("./services/watcherSvc");
 const databaseSvc = require("./services/rest/databaseSvc");
 const credentialsObjKeys = require('./constants/credentialsObjKeys');
 
-let watchInterval = 1000; // By default, the watcher is going to run a scan every 24 hours unless it's explicitly specified by the user (feature not implemented yet)
+let watchInterval = 1000 * 6000; // By default, the watcher is going to run a scan every 24 hours unless it's explicitly specified by the user (feature not implemented yet)
 
 // The watcher for cost limits
 

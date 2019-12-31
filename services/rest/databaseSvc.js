@@ -2,7 +2,7 @@ const httpSvc = require('./awsAccountsClient');
 
 module.exports = {
     postAccountDetails: (docId, requestBody) => {
-        return httpSvc.post('/' + docId, requestBody);
+        return httpSvc.post('/_doc/' + docId, requestBody);
     },
     getAccountDetails: async () => {
         const response = await httpSvc.get('/_search');

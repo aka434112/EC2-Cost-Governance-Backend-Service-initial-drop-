@@ -75,6 +75,7 @@ async function fetchEc2InstancesAcrossRegions () {
         ec2Data["Reservations"].forEach(function(instance){
             instance.Instances.forEach(function(Instance){
                 let obj = {};
+                obj.Tags = Instance.Tags;
                 obj.InstanceId = Instance.InstanceId;
                 obj.InstanceType = Instance.InstanceType;
                 obj.region = Instance.Placement.AvailabilityZone;
