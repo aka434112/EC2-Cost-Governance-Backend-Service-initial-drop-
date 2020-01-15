@@ -18,4 +18,11 @@ router.get('/credentials/AWS/getAccounts', async function(req, res){
     res.send(awsAccounts);
 })
 
+router.post('/credentials/AWS/postListOfInstances', async function (req, res) {
+    const accessId = req.body.accessId;
+    const listOfEc2Instances = req.body.instancesList;
+    const response = await databaseSvc.saveInstances(accessId, listOfEc2Instances);
+    res.status(response.status).send();
+})
+
 module.exports = router;
