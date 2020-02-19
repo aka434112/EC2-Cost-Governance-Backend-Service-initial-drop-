@@ -105,6 +105,12 @@ async function getCostCurrentMonth(costExplorerContextFromWatcher) {
             End: dateUtil.getDate("today"), 
             Start: dateUtil.getDate("startOfCurrentMonth")
         },
+        Filter: {
+            Dimensions: {
+                Key: 'SERVICE',
+                Values: ['Amazon Elastic Compute Cloud - Compute']
+            }
+        },
         Granularity: 'MONTHLY',
         Metrics: ['BlendedCost']
     }
@@ -129,6 +135,12 @@ async function getCostPattern() {
         TimePeriod: {
             End: dateUtil.getDate("today"), 
             Start: dateUtil.getDate("startOfMonth-6")
+        },
+        Filter: {
+            Dimensions: {
+                Key: 'SERVICE',
+                Values: ['Amazon Elastic Compute Cloud - Compute']
+            }
         },
         Granularity: 'MONTHLY',
         Metrics: ['BlendedCost']
