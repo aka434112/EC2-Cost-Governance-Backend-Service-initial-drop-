@@ -15,20 +15,22 @@ async function watchCosts (accessId) {
     const emailId = credentials[credentialsObjKeys.ACCOUNT_EMAIL_KEY];
     if (budgetRestrictions) {
         budgetsList = budgetRestrictions[credentialsObjKeys.ACCOUNT_BUDGETS_LIST_KEY];
-        budgetsList.sort(function(a, b){return parseInt(b) - parseInt(a)});
-        AWS.updateAwsAccessKeyId(accessId);
-        AWS.updateAwsSecretAccessKey(secretKey);
-        AWS.updateAwsRegion("us-east-1");
-        const costExplorer = AWS.createNewCostExplorerObj();
-        awsSvc.getCostCurrentMonth(costExplorer).then(currentCost => {
-            for (let i = 0; i < budgetsList.length; i++) {
-                let budgetRestriction = budgetsList[i];
-                if(parseInt(currentCost) > parseInt(budgetRestriction)) {
-                    alarms.triggerCostAlarm(budgetRestrictions[budgetRestriction], accessId, secretKey, emailId);
-                    break;
+        if(budgetsList) {
+            budgetsList.sort(function(a, b){return parseInt(b) - parseInt(a)});
+            AWS.updateAwsAccessKeyId(accessId);
+            AWS.updateAwsSecretAccessKey(secretKey);
+            AWS.updateAwsRegion("us-east-1");
+            const costExplorer = AWS.createNewCostExplorerObj();
+            awsSvc.getCostCurrentMonth(costExplorer).then(currentCost => {
+                for (let i = 0; i < budgetsList.length; i++) {
+                    let budgetRestriction = budgetsList[i];
+                    if(parseInt(currentCost) > parseInt(budgetRestriction)) {
+                        alarms.triggerCostAlarm(budgetRestrictions[budgetRestriction], accessId, secretKey, emailId);
+                        break;
+                    }
                 }
-            }
-        })
+            })
+        }
     }
     return true;
 }
