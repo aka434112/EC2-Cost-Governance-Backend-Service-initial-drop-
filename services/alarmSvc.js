@@ -8,8 +8,8 @@ let transporter = nodemailer.createTransport({
     service: 'gmail',
     proxy: 'http://web-proxy.in.softwaregrp.net:8080',
     auth: {
-      user: 'ajithsjce@gmail.com',
-      pass: 'SayHiToajith'
+      user: '',
+      pass: ''
     }
   })
 
